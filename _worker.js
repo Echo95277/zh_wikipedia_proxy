@@ -3,11 +3,12 @@ export default {
     const url = new URL(request.url);
     
     // Extract the subdomain from the host
-    const subdomain = url.host.split('.')[0];
+    const parts = url.host.split('.');
+    let subdomain = parts.length > 2 ? parts[0] : ''; // Extract the subdomain if it exists
     
-    // Check if the subdomain is 'zh' or 'en' and modify the host accordingly
-    if (subdomain === 'zh' || subdomain === 'en') {
-      url.host = subdomain + '.wikipedia.org';
+    // Check if the subdomain is not 'wikipedia' and modify the host accordingly
+    if (subdomain !== 'wikipedia') {
+      url.host = (subdomain ? subdomain + '.' : '') + 'wikipedia.org';
     }
     
     // openai is already set all CORS headers
